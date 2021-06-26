@@ -17,7 +17,7 @@ const createTagController = new CreateTagController()
 const authenticateUserController = new AuthenticateUserController()
 const createComplimentController = new CreateComplimentController()
 const listUserSendComplimentsController = new ListUserSendComplimentsController()
-const listUserSebdComplimentsController = new ListUserReceiveComplimentsController()
+const listUserReceiveComplimentsController = new ListUserReceiveComplimentsController()
 
 const listTagsController = new ListTagsController()
 
@@ -33,7 +33,7 @@ router.post("/login", authenticateUserController.handle)
 router.post("/compliments", ensureAuthenticated, createComplimentController.handle)
 
 router.get("/users/compliments/send", ensureAuthenticated, listUserSendComplimentsController.handle)
-router.get("/users/compliments/receive", ensureAuthenticated, listUserSebdComplimentsController.handle)
+router.get("/users/compliments/receive", ensureAuthenticated, listUserReceiveComplimentsController.handle)
 
 router.get("/tags", ensureAuthenticated, listTagsController.handle)
 
