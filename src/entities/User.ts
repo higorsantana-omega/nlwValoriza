@@ -1,40 +1,46 @@
-import { Exclude } from "class-transformer";
-import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { v4 as uuid } from "uuid"
+import { Exclude } from 'class-transformer';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
-@Entity("users") // Decorator -> que representa uma tabela
+@Entity('users') // Decorator -> que representa uma tabela
 // Tabela
 class User {
-    // Colunas
-    @PrimaryColumn()
-    readonly id: string
+  // Colunas
+  @PrimaryColumn()
+  readonly id: string;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column()
-    email: string
+  @Column()
+  email: string;
 
-    @Column()
-    admin: boolean
+  @Column()
+  admin: boolean;
 
-    @Exclude()
-    @Column()
-    password: string
+  @Exclude()
+  @Column()
+  password: string;
 
-    @CreateDateColumn()
-    created_at: Date
+  @CreateDateColumn()
+  created_at: Date;
 
-    @UpdateDateColumn()
-    updated_at: Date
+  @UpdateDateColumn()
+  updated_at: Date;
 
-    constructor() {
-        // Verificar se esta preenchido
-        if (!this.id) {
-            // Sempre que tiver um novo usuario, criar um novo uuid
-            this.id = uuid()
-        }
+  constructor() {
+    // Verificar se esta preenchido
+    if (!this.id) {
+      // Sempre que tiver um novo usuario, criar um novo uuid
+      this.id = uuid();
     }
+  }
 }
 
-export { User }
+export { User };

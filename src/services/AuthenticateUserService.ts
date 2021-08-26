@@ -1,42 +1,44 @@
-import { getCustomRepository } from "typeorm"
-import { UsersRepositories } from "../repositories/UsersRepositories"
-import { compare } from "bcryptjs"
-import { sign } from "jsonwebtoken"
+import { getCustomRepository } from 'typeorm';
+import { UsersRepositories } from '../repositories/UsersRepositories';
+import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 
-
-interface IAuthenticateRequest{
-    email: string
-    password: string
+interface IAuthenticateRequest {
+  email: string;
+  password: string;
 }
 
-class AuthenticateUserService{
+class AuthenticateUserService {
+  async execute({ email, password }: IAuthenticateRequest) {
+    const usersRepositories = getCustomRepository(UsersRepositories);
 
-    async execute({email, password}: IAuthenticateRequest) {
-        const usersRepositories = getCustomRepository(UsersRepositories)
+    const user = await usersRepositories.findOne({
+      email,
+    });
 
-        const user = await usersRepositories.findOne({
-            email
-        })
-
-        if (!user) {
-            throw new Error("Email/Password incorrect")
-        }
-
-        const passwordMatch = await compare(password, user.password)
-
-        if (!passwordMatch) {
-            throw new Error("Email/Password incorrect")
-        }
-
-        const token = sign({
-            email: user.email
-        }, "707fb94df1ad26da74b2f8a22f3f765c", {
-            subject: user.id,
-            expiresIn: "1d"
-        })
-
-        return token
+    if (!user) {
+      throw new Error('Email/Password incorrect');
     }
+
+    const passwordMatch = await compare(password, user.password);
+
+    if (!passwordMatch) {
+      throw new Error('Email/Password incorrect');
+    }
+
+    const token = sign(
+      {
+        email: user.email,
+      },
+      '707fb94df1ad26da74b2f8a22f3f765c',
+      {
+        subject: user.id,
+        expiresIn: '1d',
+      },
+    );
+
+    return token;
+  }
 }
 
-export { AuthenticateUserService }
+export { AuthenticateUserService };
